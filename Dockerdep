@@ -2,5 +2,5 @@ FROM openjdk:17-jdk-alpine
 RUN apk add git
 RUN git clone https://github.com/michalpieczonka/spring-petclinic.git
 WORKDIR /spring-petclinic/
-RUN ls /root/.m2/
+RUN ls ./root/.m2/
 RUN  ./mvnw dependency:go-offline
