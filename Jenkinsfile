@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     sh 'ls'
-                    def imageBuild = docker.build("petclinic-build", ". -f Dockerbuild")
+                    def imageBuild = docker.build("petclinic-build", ". --no-cache -f Dockerbuild")
                     sh 'rm -rf shared_volume'
                     sh 'mkdir shared_volume'
                     imageBuild.run("-v \$(pwd)/shared_volume:/output")
@@ -26,7 +26,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    docker.build("petclinic-test", ". -f Dockertest")
+                    docker.build("petclinic-test", ". --no-cache -f Dockertest")
                     sh 'echo tested'
                 }
             }
