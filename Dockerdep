@@ -1,4 +1,5 @@
 FROM maven:alpine
 RUN echo $(ls -1 ./root/.m2)
 COPY pom.xml /petclinic-app/pom.xml
+WORKDIR /petclinic-app/
 RUN mvn dependency:go-offline
