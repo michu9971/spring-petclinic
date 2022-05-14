@@ -5,8 +5,9 @@ pipeline {
             steps {
                 script {
                     sh 'ls'
-                    docker.build("petclinic-dep", ". --no-cache -f Dockerdep")                        
-                    sh 'echo dependencies fetched'
+                    def imageDependencies = docker.build("petclinic-dep", ". --no-cache -f Dockerdep")                        
+                    sh 'Dependencies image has been built'
+                    imageDependencies.run("-v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app mvn dependency:go-offline")
                 }
             }
         }
