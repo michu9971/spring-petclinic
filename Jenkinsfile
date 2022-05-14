@@ -26,7 +26,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    docker.build("petclinic-test", ". --no-cache -f Dockertest")
+                    docker.build("petclinic-test", ". -f Dockertest")
                     sh 'echo tested'
                 }
             }
