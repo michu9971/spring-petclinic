@@ -1,7 +1,7 @@
 FROM petclinic-dep:latest
 
-RUN cd app && ./mvnw install -DskipTests
+RUN cd spring-petclinic && ./mvnw install -DskipTests
 
-WORKDIR /app
+WORKDIR /spring-petclinic
 
 ENTRYPOINT [ "cp", "target/spring-petclinic-2.6.0-SNAPSHOT.jar", "/output/app.jar" ]
