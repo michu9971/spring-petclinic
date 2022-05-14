@@ -1,6 +1,4 @@
 FROM maven:alpine
 RUN echo $(ls -1 ./root/.m2)
 COPY pom.xml /sukces/pom.xml
-RUN --mount=type=bind,source=/testuje,target=/root/.m2 
-WORKDIR /sukces/
 RUN echo (ls -1)
