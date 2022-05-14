@@ -8,13 +8,11 @@ pipeline {
         stage("Pull dependencies") {
             steps {
                 script {
-                    sh 'ls'
-                    def myImg = docker.build("dependencies", ". -f Dockerdep")
-                    myImg.inside('-v /var/jenkins_home/workspace/PetClinicPipeline/maven-dependencies:/root/.m2'){
-                        sh 'echo pulling depenencies'
-                        sh 'ls -l'
-                        sh 'echo gnoju'
-                        sh 'cd petclinic-app/ && mvn dependency:go-offline'
+                    docker.build("dependencies", ". --no-cache -f Dockerdep")
+                    sh 'echo Dependencies container has been built'
+                    sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container dependencies mvn dependency:go-offline'
+                    sh 'docker commit --change="CMD bash" temp-container dependencies'
+                    sh 'docker rm temp-container'
                     }
 
                 }
