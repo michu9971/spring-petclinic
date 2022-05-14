@@ -11,7 +11,7 @@ pipeline {
                     sh 'ls'
                     def dependencje = docker.build("dependencies", ". -f Dockerdep")
                     sh 'echo Dependencies container has been built' 
-                    dependencje.insisde("-v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app mvn dependency:go-offline")
+                    dependencje.inside("-v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app mvn dependency:go-offline")
 
                 }
             }
