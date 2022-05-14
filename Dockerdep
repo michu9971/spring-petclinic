@@ -1,6 +1,3 @@
-FROM maven:3.8.5-openjdk-17
-ENV HOME=/petclinic-app/
-RUN mkdir -p $HOME
-WORKDIR $HOME
-ADD pom.xml $HOME
-RUN --mount=type=cache,target=/root/.m2 mvn -f $HOME/pom.xml dependency:go-offline
+FROM maven:alpine
+RUN echo $(ls -1 ./root/.m2)
+COPY pom.xml /petclinic-app/pom.xml
