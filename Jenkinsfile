@@ -17,10 +17,10 @@ pipeline {
             steps {
                 script {
                     sh 'ls'
-                    def imageBuild = docker.build("petclinic-build", ". --no-cache -f Dockerbuild")
-                    sh 'rm -rf shared_volume'
-                    sh 'mkdir shared_volume'
-                    imageBuild.run("-v \$(pwd)/shared_volume:/output")
+                    def imageBuild = docker.build("builder", ". --no-cache -f Dockerbuild")
+                    sh 'rm -rf output_volume'
+                    sh 'mkdir output_volume'
+                    imageBuild.run("-v \$(pwd)/output_volume:/build_result")
                     sh 'ls shared_volume'
                 }
             }
