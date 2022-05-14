@@ -7,6 +7,7 @@ pipeline {
                     sh 'ls'
                     docker.build("petclinic-dep", ". --no-cache -f Dockerdep")
                     sh 'Dependencies image has been built'
+                    sh 'DZIALSZ '
                     sh 'docker run --rm -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app petclinic-dep mvn --version'
                          
                 }
