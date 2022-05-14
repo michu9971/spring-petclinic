@@ -5,7 +5,9 @@ pipeline {
         stage("Fetch dependencies") {
             steps {
                 script {
-                                            sh 'mkdir volumes_all'
+                    sh 'ls'
+                    sh 'mkdir volumes_all'
+                    sh 'ls'
 		    sh 'mkdir volume_input'
 		    sh 'cd volumes_all/volume_input && git clone https://github.com/michalpieczonka/spring-petclinic.git'
                     docker.build("petclinic-dep", ". -f Dockerdep")
