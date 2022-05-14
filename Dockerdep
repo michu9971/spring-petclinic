@@ -4,4 +4,4 @@ COPY src src
 RUN ls
 RUN ls /root/.m2
 RUN  mvn dependency:go-offline
-RUN  mvw dependency:go-offline
+RUN ls /root/.m2
