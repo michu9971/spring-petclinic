@@ -11,7 +11,9 @@ pipeline {
                     sh 'ls'
                     def myImg = docker.build("dependencies", ". -f Dockerdep")
                     myImg.inside('-v /var/jenkins_home/workspace/PetClinicPipeline/maven-dependencies:/root/.m2'){
+                        sh 'echo pulling depenencies'
                         sh 'echo gnoju'
+                        sh 'cd petclinic-app/ && mvn dependency:go-offline'
                     }
 
                 }
