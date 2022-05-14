@@ -9,12 +9,10 @@ pipeline {
             steps {
                 script {
                     sh 'ls'
-                    docker.build("dependencies", ". -f Dockerdep")
-                    sh 'echo Dependencies container has been built' 
-                    sh 'CONTAINER_ID=$(docker run -dit -v \$(pwd)/maven-dependencies:/root/.m2 dependencies)'
-                    sh """docker exec -t dependencies -c 'cd /petclinic-app mvn clean'"""
-                    sh 'docker commit dependencies dependencies:latest'
-                    sh 'docker stop dependencies'
+                    def myImg = docker.build("dependencies", ". -f Dockerdep")
+                    myImg.inside('-v /var/jenkins_home/workspace/PetClinicPipeline/maven-dependencies:/root/.m2'){
+                        sh 'ls'
+                    }
 
                 }
             }
