@@ -1,5 +1,7 @@
 FROM maven:3.8.5-openjdk-17
 COPY src /petclinic-app/
 COPY pom.xml /petclinic-app/pom.xml
-COPY maven-dependencies ./root/.m2
+COPY maven-dependencies /root/.m2
+RUN ls /root/.m2
+WORKDIR petclinic-app
 RUN mvn dependency:go-offline
