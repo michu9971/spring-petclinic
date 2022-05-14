@@ -1,8 +1,7 @@
 pipeline {
     agent any
-
     stages {
-        stage("Fetch dependencies") {
+        stage("Pull dependencies") {
             steps {
                 script {
                     sh 'ls'
