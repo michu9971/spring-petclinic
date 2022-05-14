@@ -1,3 +1,4 @@
+def CONTAINER_ID
 pipeline {
     agent any
     environment {
@@ -7,12 +8,13 @@ pipeline {
         stage("Pull dependencies") {
             steps {
                 script {
-                    def CONTAINER_ID
                     sh 'ls'
-                    def dependencje = docker.build("dependencies", ". -f Dockerdep")
+                    docker.build("dependencies", ". -f Dockerdep")
                     sh 'echo Dependencies container has been built' 
-                    dependencje.inside("-v var/jenkins_home/workspace/PetClinicPipeline/maven-dependencies/maven-dependencies:/root/.m2")
-                    dependencje.inside("-w /petclinic-app && mvn dependency:go-offline")
+                    sh 'CONTAINER_ID=$(docker run -dit -v \$(pwd)/maven-dependencies:/root/.m2 dependencies)'
+                    sh """docker exec -t $CONTAINER_ID -c 'cd /petclinic-app mvn clean'"""
+                    sh 'docker commit $CONTAINER_ID dependencies:latest'
+                    sh 'docker stop $CONTAINER_ID'
 
                 }
             }
