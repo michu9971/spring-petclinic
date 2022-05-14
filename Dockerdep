@@ -1,4 +1,4 @@
 FROM maven:alpine
 RUN echo $(ls -1 ./root/.m2)
 COPY pom.xml /sukces/pom.xml
-RUN echo (ls -1)
+RUN echo $(ls -1)
