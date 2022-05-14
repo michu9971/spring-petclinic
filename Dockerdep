@@ -1,4 +1,4 @@
 FROM maven:3.8.5-openjdk-17
 COPY src /petclinic-app/
 COPY pom.xml /petclinic-app/pom.xml
-RUN --mount=target=/root/.m2,type=bind,source=\$(pwd)/maven-dependencies   
+RUN --mount=target=/root/.m2,type=bind,source=/var/jenkins_home/workspace/PetClinicPipeline/maven-dependencies   
