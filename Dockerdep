@@ -1,5 +1,6 @@
-FROM openjdk:17-jdk-alpine
+FROM maven:alpine
 RUN echo $(ls -1 ./root/.m2)
-RUN apk add git
-RUN git clone https://github.com/michalpieczonka/spring-petclinic.git
-WORKDIR /spring-petclinic/
+ADD . /sukces
+RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline 
+WORKDIR /sukces/
+RUN echo (ls -1)
