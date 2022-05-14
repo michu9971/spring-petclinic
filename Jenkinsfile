@@ -31,18 +31,27 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    docker.build("petclinic-test", ". -f Dockertest")
+                    docker.build("tester", ". -f Dockertest")
                     sh 'echo tested'
                 }
             }
         }
         stage('Deploy') {
             steps {
-                script {
-                    sh 'docker rm -f petclinic'
-                    def deployImage = docker.build("petclinic", ". -f Dockerpublish")
-                    deployImage.run("--name petclinic")
-                    sh 'sleep 5'
+                script {           
+                     def deployImage = docker.build("petclinic", ". -f Dockerpublish")
+                      try {
+                            timeout(time: 1, unit: 'MINUTES') {
+                              deployImage.run("--name petclinic")
+                            }
+                        } catch (Exception e) {
+                            echo e.toString()
+                            if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
+                                echo 'Deployed successfully!'
+                            } else {
+                                throw new Exception(e.toString())
+                            }
+                        }
                     sh 'docker rm -f petclinic'
                 }
             }
