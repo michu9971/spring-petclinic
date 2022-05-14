@@ -7,6 +7,7 @@ pipeline {
         stage("Pull dependencies") {
             steps {
                 script {
+                    def CONTAINER_ID
                     sh 'ls'
                     docker.build("dependencies", ". -f Dockerdep")
                     sh 'echo Dependencies container has been built' 
