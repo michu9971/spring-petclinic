@@ -1,4 +1,5 @@
 FROM dependencies:latest
+RUN echo $(ls -1)
 RUN mvn spring-javaformat:apply
 RUN mvn clean package -DskipTests
 
