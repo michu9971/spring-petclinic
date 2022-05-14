@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     sh 'ls'
-                    docker.build("dependencies", ". --no-cache -f Dockerdep")
+                    docker.build("dependencies", ". -f Dockerdep")
                     sh 'echo Dependencies container has been built'                                         
                 }
             }
