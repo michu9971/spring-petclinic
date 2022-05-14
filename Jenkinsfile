@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     sh 'ls'
-                    def imageBuild = docker.build("builder", ". --no-cache -f Dockerbuild")
+                    def imageBuild = docker.build("builder", ". -f Dockerbuild")
                     sh 'rm -rf output_volume'
                     sh 'mkdir output_volume'
                     imageBuild.run("-v \$(pwd)/output_volume:/build_result")
@@ -38,10 +38,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                script {           
-                     def deployImage = docker.build("petclinic", ". -f Dockerpublish")
+                script {                              
                       try {
                             timeout(time: 1, unit: 'MINUTES') {
+                              def deployImage = docker.build("petclinic", ". -f Dockerpublish")
                               deployImage.run("--name petclinic")
                             }
                         } catch (Exception e) {
