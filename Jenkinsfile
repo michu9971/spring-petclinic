@@ -1,4 +1,3 @@
-def CONTAINER_ID
 pipeline {
     agent any
     environment {
@@ -13,8 +12,6 @@ pipeline {
                     sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container dependencies mvn dependency:go-offline'
                     sh 'docker commit --change="CMD bash" temp-container dependencies'
                     sh 'docker rm temp-container'
-                    }
-
                 }
             }
         }
