@@ -1,2 +1,3 @@
-FROM maven:alpine
+FROM openjdk:17-alpine
+COPY src /petclinic-app/
 COPY pom.xml /petclinic-app/pom.xml
