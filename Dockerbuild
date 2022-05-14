@@ -4,4 +4,4 @@ WORKDIR /petclinic-app
 RUN echo $(ls -1)
 RUN mvn clean package -DskipTests
 
-ENTRYPOINT [ "cp", "target/spring-petclinic-2.6.0-SNAPSHOT.jar", "/build_result/app.jar" ]
+ENTRYPOINT [ "cp", "target/spring-petclinic-2.6.0-SNAPSHOT.jar", "/build_result/final_app.jar" ]
