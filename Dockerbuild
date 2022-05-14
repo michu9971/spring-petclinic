@@ -1,5 +1,5 @@
-FROM petclinic-dep:latest
-RUN ./mvnw spring-javaformat:apply
-RUN ./mvnw clean install -DskipTests
+FROM dependencies:latest
+RUN mvn spring-javaformat:apply
+RUN mvn clean package -DskipTests
 
-ENTRYPOINT [ "cp", "target/spring-petclinic-2.6.0-SNAPSHOT.jar", "/output/app.jar" ]
+ENTRYPOINT [ "cp", "target/spring-petclinic-2.6.0-SNAPSHOT.jar", "/build_result/app.jar" ]
