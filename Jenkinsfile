@@ -15,6 +15,9 @@ pipeline {
             steps {
                 script {
                     sh 'ls'
+                    sh 'mkdir volumes_all'
+					sh 'mkdir volume_input'
+					sh 'cd volumes_all/volume_input && git clone https://github.com/michalpieczonka/spring-petclinic.git
                     def imageBuild = docker.build("petclinic-build", ". --no-cache -f Dockerbuild")
                     sh 'rm -rf shared_volume'
                     sh 'mkdir shared_volume'
