@@ -7,9 +7,9 @@ pipeline {
         stage("Pull dependencies") {
             steps {
                 script {
-                    docker.build("dependencies", ". --no-cache -f Dockerdep")
-                    sh 'echo Dependencies container has been built'
-                    sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container dependencies mvn dependency:go-offline'
+                    docker.build("predependencies", ". --no-cache -f Dockerdep")
+                    sh 'echo PreDependencies container has been built'
+                    sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container predependencies mvn dependency:go-offline'
                     sh 'docker commit --change="CMD bash" temp-container dependencies'
                     sh 'docker rm temp-container'
                 }
