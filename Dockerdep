@@ -1,6 +1,6 @@
 FROM maven:alpine
 RUN echo $(ls -1 ./root/.m2)
-ADD . /sukces
-RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline 
+COPY pom.xml /sukces/pom.xml
+RUN --mount=type=bind,source=/testuje,target=/root/.m2 
 WORKDIR /sukces/
 RUN echo (ls -1)
