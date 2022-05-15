@@ -6,8 +6,8 @@ pipeline {
                 script {
                     docker.build("predependencies", ". -f Dockerdep")
                     sh 'echo PreDependencies container has been built'
-                    sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container predependencies mvn dependency:go-offline'
-                    sh 'docker commit --change="CMD bash" temp-container dependencies'
+                    sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container predependencies mvn dependency:resolve'
+                    sh 'docker commit --change="Update dependencies" temp-container dependencies'
                     sh 'docker rm temp-container'
                 }
             }
