@@ -90,10 +90,9 @@ pipeline {
         }
         failure{
                 echo '.::Pipeline FAILED::.'
-                mail bcc: '', body: "<b>Example</b><br>\n<br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "mich.pieczonka@gmail.com";
-              //         emailext subject: "Failed jenkins pipeline",
-              //  body: "FAILED: Check console output at",
-              //  to: 'mich.pieczonka@gmail.com'
+                mail bcc: '', body: "<b>Pipeline FAILED</b><br>\n<br>Project: ${env.JOB_NAME} 
+                <br>Build Number: ${env.BUILD_NUMBER} <br> Jenkins URL: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: '',
+                mimeType: 'text/html', replyTo: '',subject: "ERROR CI: in project -> ${env.JOB_NAME}", to: "mich.pieczonka@gmail.com";
         }
     }
 }
