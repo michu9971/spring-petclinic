@@ -2,23 +2,17 @@ pipeline {
     agent any
     stages {
 
-        stage('Deploy') {
+          stage('Deploy') {
             steps {
                 script {                              
-                      try {
-                          def deployImage = docker.build("petclinic", ". --no-cache -f Dockerpublish")
-                          deployImage.inside{
-                              timeout(1){}
-                          }
-                        } catch (Exception e) {
-                            echo e.toString()
-                            if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
-                                sh 'docker stop -f petclinic'
-                                echo 'Deployed successfully!'
-                            } else {
-                                throw new Exception(e.toString())
-                            }
-                        }
+ timeout (1) {
+    try {
+      sh 'sleep 15000'
+    } catch (Exception ex) {
+      echo 'In exception'
+    }  
+    echo 'I made it here after catching exception'
+  }
                 }
             }
         }
