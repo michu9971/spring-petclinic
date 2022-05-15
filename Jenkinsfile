@@ -7,7 +7,7 @@ pipeline {
                     docker.build("predependencies", ". -f Dockerdep")
                     sh 'echo PreDependencies container has been built'
                     sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container predependencies mvn dependency:resolve'
-                    sh 'docker commit temp-container dependenciesv2'
+                    sh 'docker commit temp-container dependencies'
                     sh 'docker rm temp-container'
                 }
             }
@@ -37,9 +37,9 @@ pipeline {
             steps {
                 script {                              
                       try {
-                            timeout(time: 1, unit: 'MINUTES') {
-                              def deployImage = docker.build("petclinic", ". -f Dockerpublish")
-                              deployImage.run("--name petclinic")
+                          def deployImage = docker.build("petclinic", ". --no-cache -f Dockerpublish")
+                          timeout(time: 1, unit: 'MINUTES') {
+                            deployImage.run("--name -d -p petclinic")
                             }
                         } catch (Exception e) {
                             echo e.toString()
