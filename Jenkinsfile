@@ -7,9 +7,9 @@ pipeline {
                 script {                              
                       try {
                           def deployImage = docker.build("petclinic", ". --no-cache -f Dockerpublish")
-                          timeout(time: 5, unit: 'MINUTES') {
-                            deployImage.run("--name petclinic")
-                            }
+                          deployImage.inside{
+                              timeout(1){}
+                          }
                         } catch (Exception e) {
                             echo e.toString()
                             if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
@@ -19,7 +19,6 @@ pipeline {
                                 throw new Exception(e.toString())
                             }
                         }
-                   sh 'docker rm -f petclinic'
                 }
             }
         }
