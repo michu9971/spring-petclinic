@@ -35,11 +35,13 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                script {                              
+                script {
                       try {
-                          timeout(time: 1, unit: 'MINUTES') {
                           def deployImage = docker.build("petclinic", ". --no-cache -f Dockerpublish")
                           deployImage.run("--name petclinic -d -p 8989:80")
+                          timeout(time: 1, unit: 'MINUTES') {
+                          sh 'ls -l'
+                          sh 'echo  $(jestem w srodku)'
                           }
                         } catch (Exception e) {
                             echo e.toString()
