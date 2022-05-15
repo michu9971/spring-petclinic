@@ -19,12 +19,12 @@ pipeline {
 							echo 'Exception during timeout has been thrown with message'
                             echo e.toString()
                             if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
-                                sh 'docker stop deploy-container'
-                                sh 'docker rm deploy-container'
                                 echo 'Deployed successfully!'
                             } else {
                                 throw new Exception(e.toString())
-                        }                   
+                        } 
+                                sh 'docker stop deploy-container'
+                                sh 'docker rm deploy-container
 				echo 'I made it here after catching exception'
 				}
             }
