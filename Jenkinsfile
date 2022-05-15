@@ -74,11 +74,16 @@ pipeline {
               steps {
 			    echo '.::Publishing::.'	
 				script {
-				def sourceJarFile = "output_volume/final_app.jar"
-				def artifactName = """'app_realease-${params.VERSION}.jar'"""
+                                        
+				def sourceJarFile = "output_volume/final_app.jar"                                  
+                                 if (fileExists(file: sourceJarFile)) {
+                                        def artifactName = """'app_realease-${params.VERSION}.jar'"""                                     
+                                         writeFile(file: artifactName, encoding: "UTF-8", text: readFile(file: sourceFile, encoding: "UTF-8"))
+                                 }
 				def finalArctifact = "output_volume/artifactName"
+                                writeFile(file: finalArctifact, encoding: "UTF-8", text: readFile(file: sourceFile, encoding: "UTF-8"))       
 				}
-			    archiveArtifacts artifacts: 'output_volume/app.jar', fingerprint: true				
+			    archiveArtifacts artifacts: finalArctifact, fingerprint: true				
             }
         }
     }
