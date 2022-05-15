@@ -12,8 +12,8 @@ pipeline {
 							sh 'docker run --name deploy-container -d -p 8989:80 deploy'
 							sh 'sleep 20'
 							final String url = "http://localhost:8080"
-                            final String response = sh(script: "curl -s $url", returnStdout: true).trim()
-							
+                                                        final String response = sh(script: "curl -s $url", returnStdout: true).trim()
+                                                        echo response							
 							sh 'sleep 15000'
 						} catch (Exception e) {
 							echo 'Exception during timeout has been thrown with message'
