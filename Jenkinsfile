@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     echo '.::Dependencies pulling started::.'
-                    docker.build("predependencies", ". -f Dockerdep")
+                    docker.build("predependencies", ". -f Docdkerdep")
                     sh 'echo PreDependencies container has been built'
                     sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container predependencies mvn dependency:resolve'
                     sh 'docker commit temp-container dependencies'
