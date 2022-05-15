@@ -14,7 +14,7 @@ pipeline {
 			    echo '.::Publishing::.'	
                            
                             sh """mv output_volume/final_app.jar output_volume/'app_realease-${params.VERSION}.jar'"""
-                            archiveArtifacts artifacts: "output_volume/'app_realease-${params.VERSION}.jar'", fingerprint: true			
+                            archiveArtifacts artifacts: 'output_volume/app_realease-${params.VERSION}.jar', fingerprint: true			
             }
         }
     }
