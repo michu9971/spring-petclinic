@@ -1,7 +1,6 @@
 pipeline {
     agent any
     stages {
-
           stage('Deploy') {
             steps {
                 script {                              
@@ -16,7 +15,7 @@ pipeline {
 							echo 'Exception during timeout has been thrown with message'
                             echo e.toString()
                             if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
-                                sh 'docker stop -f deploy'
+                                sh 'docker stop deploy'
                                 echo 'Deployed successfully!'
                             } else {
                                 throw new Exception(e.toString())
@@ -26,7 +25,7 @@ pipeline {
             }
         }
     }
-	}
+}
     }
     post {
         success {
