@@ -77,13 +77,12 @@ pipeline {
                                         
 				def sourceJarFile = "output_volume/final_app.jar"                                  
                                  if (fileExists(file: sourceJarFile)) {
-                                        def artifactName = """'app_realease-${params.VERSION}.jar'"""                                     
-                                         writeFile(file: artifactName, encoding: "UTF-8", text: readFile(file: sourceFile, encoding: "UTF-8"))
+                                       def artifactName = """'app_realease-${params.VERSION}.jar'"""                                     
+                                        writeFile(file: artifactName, encoding: "UTF-8", text: readFile(file: sourceFile, encoding: "UTF-8"))
+                                        archiveArtifacts artifacts: finalArctifact, fingerprint: true
                                  }
-				def finalArctifact = "output_volume/artifactName"
-                                writeFile(file: finalArctifact, encoding: "UTF-8", text: readFile(file: sourceFile, encoding: "UTF-8"))       
-				}
-			    archiveArtifacts artifacts: finalArctifact, fingerprint: true				
+			     
+				}				
             }
         }
     }
