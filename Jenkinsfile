@@ -5,8 +5,8 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                sh 'docker.build("petclinic", ". --no-cache -f Dockerpublish")'
-                sh 'docker run -d -p 8989:80 petclinic'
+                sh 'docker build . --no-cache -f Dockerpublish -t petclinic'
+                sh 'docker run --name petclinic -d -p 8989:80 petclinic'
                 script {                              
                       try {
                           timeout(time: 1, unit: 'MINUTES') {
@@ -19,10 +19,10 @@ pipeline {
                             } else {
                                 throw new Exception(e.toString())
                             }
+                   sh 'docker stop petclinic' 
+                   sh 'docker rm -f petclinic'
                         }
                 }
-                                   sh 'docker stop petclinic' 
-                   sh 'docker rm -f petclinic'
             }
         }
     }
