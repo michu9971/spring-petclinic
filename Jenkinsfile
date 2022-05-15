@@ -24,7 +24,7 @@ pipeline {
                                 throw new Exception(e.toString())
                         } 
                                 sh 'docker stop deploy-container'
-                                sh 'docker rm deploy-container
+                                sh 'docker rm deploy-container'                                                   
 				echo 'I made it here after catching exception'
 				}
             }
