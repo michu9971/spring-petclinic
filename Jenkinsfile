@@ -86,10 +86,13 @@ pipeline {
             cleanWs()
         }
         success {
-            echo 'Succeeded, now I`m saving artifact.'
+            echo '.::Succeeded, Saving artifact::.'
         }
-        failure {
-            echo 'Failed, I`m not saving any artifacts.'
+        failure{
+                echo '.::Pipeline FAILED::.'
+                emailext subject: "Failed jenkins pipeline job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' ",
+                body: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':\n Check console output at ${env.BUILD_URL}",
+                to: 'mich.pieczonka@gmail.com'
         }
     }
 }
