@@ -20,9 +20,9 @@ pipeline {
                                 throw new Exception(e.toString())
                             }
                         }
-                   sh 'docker stop petclinic' 
-                   sh 'docker rm -f petclinic'
                 }
+                                   sh 'docker stop petclinic' 
+                   sh 'docker rm -f petclinic'
             }
         }
     }
