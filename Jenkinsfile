@@ -11,7 +11,7 @@ pipeline {
 							echo 'starting application in pure dev container'
 							sh 'docker run --name deploy-container -d -p 8989:80 deploy'
 							sh 'sleep 20'
-							final String url = "http://localhost:8989"
+							final String url = "http://localhost:8080"
                             final String response = sh(script: "curl -s $url", returnStdout: true).trim()
 							
 							sh 'sleep 15000'
