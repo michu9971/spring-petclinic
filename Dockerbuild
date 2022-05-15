@@ -1,4 +1,4 @@
-FROM dependencies:latest
+FROM dependenciesv2
 WORKDIR /petclinic-app
 RUN echo $(ls -1)
 RUN mvn clean package -DskipTests
