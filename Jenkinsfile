@@ -63,9 +63,6 @@ pipeline {
 			}
 		}		
 		stage('Publish') {
-	        when {
-                expression { params.PROMOTE == true }
-            }
             steps {
 			    echo '.::Publishing::.'	
 				script {
