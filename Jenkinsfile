@@ -90,8 +90,8 @@ pipeline {
         }
         failure{
                 echo '.::Pipeline FAILED::.'
-                emailext subject: "Failed jenkins pipeline job '[${env.BUILD_NUMBER}]' ",
-                body: "FAILED: Job '[${env.BUILD_NUMBER}]':\n Check console output at ${env.BUILD_URL}",
+                emailext subject: "Failed jenkins pipeline",
+                body: "FAILED: Check console output at",
                 to: 'mich.pieczonka@gmail.com'
         }
     }
