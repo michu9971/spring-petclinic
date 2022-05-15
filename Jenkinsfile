@@ -3,15 +3,14 @@ pipeline {
     stages {
 
         
-
         stage('Deploy') {
             steps {
-                script {
+                script {                              
                       try {
-                          sh 'docker.build("petclinic", ". --no-cache -f Dockerpublish")'
-                          sh 'docker run -d -p 8989:80 petclinic'
+                          def deployImage = docker.build("petclinic", ". --no-cache -f Dockerpublish")
                           timeout(time: 1, unit: 'MINUTES') {
-                          }
+                            deployImage.run("--name petclinic -d -p 8989:80")
+                            }
                         } catch (Exception e) {
                             echo e.toString()
                             if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
