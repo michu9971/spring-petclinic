@@ -9,6 +9,7 @@ pipeline {
         stage("Pull dependencies") {
             steps {
                 script {
+                    echo '.::Dependencies pulling started::.'
                     docker.build("predependencies", ". -f Dockerdep")
                     sh 'echo PreDependencies container has been built'
                     sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container predependencies mvn dependency:resolve'
@@ -21,6 +22,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
+                    echo '.::Build started::.'
                     sh 'ls'
                     def imageBuild = docker.build("builder", ". -f Dockerbuild")
                     sh 'rm -rf output_volume'
@@ -33,8 +35,8 @@ pipeline {
         stage('Test') {
             steps {
                 script {
+                    echo '.::Tests started::.'
                     docker.build("tester", ". -f Dockertest")
-                    sh 'echo tested'
                 }
             }
         }
@@ -43,10 +45,11 @@ pipeline {
                 script {                              
 			timeout (1) {
 				try {
-				     echo 'building deploy image'
+                                     echo '.::Publishing::.'
+				     echo 'Building deploy image'
 				     sh 'docker build . --no-cache -f Dockerpublish -t deploy'
-				     echo 'starting application in pure dev container'
-				     sh 'docker run --name deploy-container -d -p 8989:80 deploy'
+				     echo 'Starting application in pure dev container'
+				     sh 'docker run --name deploy-container -d deploy'
 				     sh 'sleep 20'
 				     final String url = "http://localhost:8080"
                                      final String response = sh(script: "curl -s $url", returnStdout: true).trim()
@@ -56,7 +59,7 @@ pipeline {
 				     echo 'Exception during timeout has been thrown with message'
                                      echo e.toString()
 					if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
-						echo 'Deployed successfully!'
+						echo '.::Deployed successfully!::.'
 					} else {
 						throw new Exception(e.toString())
 					} 
