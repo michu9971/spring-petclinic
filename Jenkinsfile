@@ -39,7 +39,7 @@ pipeline {
                       try {
                           def deployImage = docker.build("petclinic", ". --no-cache -f Dockerpublish")
                           timeout(time: 1, unit: 'MINUTES') {
-                            deployImage.run("--name -d -p petclinic")
+                            deployImage.run("--name -d -p 8989:80 petclinic")
                             }
                         } catch (Exception e) {
                             echo e.toString()
