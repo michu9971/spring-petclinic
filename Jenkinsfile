@@ -21,7 +21,7 @@ pipeline {
                     sh 'rm -rf output_volume'
                     sh 'mkdir output_volume'
                     imageBuild.run("-v \$(pwd)/output_volume:/build_result")
-                    sh 'ls shared_volume'
+                    sh 'ls output_volume'
                 }
             }
         }
@@ -69,11 +69,11 @@ pipeline {
             steps {
 			    echo '.::Publishing::.'	
 				script {
-				def sourceJarFile = "shared_volume/app.jar"
+				def sourceJarFile = "output_volume/app.jar"
 				def artifactName = """'app_realease-${params.VERSION}.jar'"""
-				def finalArctifact = "shared_volume/artifactName"
+				def finalArctifact = "output_volume/artifactName"
 				}
-			    archiveArtifacts artifacts: 'shared_volume/app.jar', fingerprint: true				
+			    archiveArtifacts artifacts: 'output_volume/app.jar', fingerprint: true				
             }
         }
     }
