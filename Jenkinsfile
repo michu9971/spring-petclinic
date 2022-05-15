@@ -12,12 +12,9 @@ pipeline {
              }
               steps {
 			    echo '.::Publishing::.'	
-				script {
-                                        def finalArtifact = "output_volume/'app_realease-${params.VERSION}.jar'"
-                                        sh '''mv output_volume/final_app.jar output_volume/'app_realease-${params.VERSION}.jar''''
-                                        archiveArtifacts artifacts: finalArctifact, fingerprint: true
-			     
-				}				
+                           
+                            sh """mv output_volume/final_app.jar output_volume/'app_realease-${params.VERSION}.jar'"""
+                            archiveArtifacts artifacts: """output_volume/'app_realease-${params.VERSION}.jar'""", fingerprint: true			
             }
         }
     }
