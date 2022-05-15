@@ -5,17 +5,28 @@ pipeline {
           stage('Deploy') {
             steps {
                 script {                              
- timeout (1) {
-    try {
-      sh 'sleep 15000'
-    } catch (Exception ex) {
-      echo 'In exception'
-    }  
-    echo 'I made it here after catching exception'
-  }
-                }
+					timeout (1) {
+						try {
+							echo 'building deploy image'
+							sh 'docker build . --no-cache -f Dockerpublish -t deploy'
+							echo 'starting application in pure dev container'
+							sh 'docker run --name deploy-container -d -p 8989:80 deploy'
+							sh 'sleep 15000'
+						} catch (Exception e) {
+							echo 'Exception during timeout has been thrown with message'
+                            echo e.toString()
+                            if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
+                                sh 'docker stop -f deploy'
+                                echo 'Deployed successfully!'
+                            } else {
+                                throw new Exception(e.toString())
+                        }                   
+				echo 'I made it here after catching exception'
+				}
             }
         }
+    }
+	}
     }
     post {
         success {
