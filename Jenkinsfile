@@ -13,26 +13,7 @@ pipeline {
             }
         }
         
-        stage('Build') {
-            steps {
-                script {
-                    sh 'ls'
-                    def imageBuild = docker.build("builder", ". -f Dockerbuild")
-                    sh 'rm -rf output_volume'
-                    sh 'mkdir output_volume'
-                    imageBuild.run("-v \$(pwd)/output_volume:/build_result")
-                    sh 'ls shared_volume'
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                script {
-                    docker.build("tester", ". -f Dockertest")
-                    sh 'echo tested'
-                }
-            }
-        }
+
         stage('Deploy') {
             steps {
                 script {
