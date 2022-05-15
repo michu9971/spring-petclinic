@@ -4,4 +4,4 @@ RUN apk add --no-cache --upgrade bash
 
 COPY shared_volume/app.jar /app.jar
 
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+ENTRYPOINT [ "java", "-jar", "app.jar" "--server.port=8989"]
