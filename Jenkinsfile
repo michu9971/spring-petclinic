@@ -6,7 +6,7 @@ pipeline {
 	text(name: 'VERSION', defaultValue: '', description: 'Version number that will be published')
 	}        
     stages {
-        	stage('Publish') {
+        stage('Publish') {
             when {
                 expression { params.PROMOTE == true }
              }
@@ -25,7 +25,7 @@ pipeline {
             }
         }
     }
-    }
+   
     post {
         success {
             echo 'Succeeded, now I`m saving artifact.'
