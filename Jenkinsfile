@@ -12,8 +12,8 @@ pipeline {
              }
               steps {
 		echo '.::Publishing::.'	 
-                sh 'ssh deployer@192.168.0.107 rm -rf /repo/'
-                sh 'ssh deployer@192.168.0.107 mkdir repo'
+                sh 'ssh deployer@192.168.0.107 rm -rf ~/repo/'
+                sh 'ssh deployer@192.168.0.107 mkdir ~/repo'
                 sh 'scp output_volume/final_app.jar deployer@192.168.0.107:~/repo/'
                 sh """mv output_volume/final_app.jar output_volume/'app_realease-${params.VERSION}.jar'"""
                 archiveArtifacts artifacts: """output_volume/app_realease-${params.VERSION}.jar""", fingerprint: true			
