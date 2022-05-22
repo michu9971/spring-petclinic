@@ -6,6 +6,19 @@ pipeline {
 	text(name: 'VERSION', defaultValue: '', description: 'Version number that will be published')
 	}        
     stages {		
+                    stage('Build') {
+            steps {
+                script {
+                    echo '.::Build started::.'
+                    sh 'ls'
+                    def imageBuild = docker.build("builder", ". -f Dockerbuild")
+                    sh 'rm -rf output_volume'
+                    sh 'mkdir output_volume'
+                    imageBuild.run("-v \$(pwd)/output_volume:/build_result")
+                    sh 'ls output_volume'
+                }
+            }
+        }
 	stage('Publish') {
             when {
                 expression { params.PROMOTE == true }
