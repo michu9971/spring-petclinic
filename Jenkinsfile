@@ -5,20 +5,7 @@ pipeline {
 	
 	text(name: 'VERSION', defaultValue: '', description: 'Version number that will be published')
 	}        
-    stages {
-        stage("Pull dependencies") {
-            steps {
-                script {
-                    echo '.::Dependencies pulling started::.'
-                    docker.build("predependencies", ". -f Dockerdep")
-                    sh 'echo PreDependencies container has been built'
-                    sh 'docker run -v \$(pwd)/maven-dependencies:/root/.m2 -w /petclinic-app --name temp-container predependencies mvn dependency:resolve'
-                    sh 'docker commit temp-container dependencies'
-                    sh 'docker rm temp-container'
-                }
-            }
-        }
-        
+    stages {    
         stage('Build') {
             steps {
                 script {
@@ -32,14 +19,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    echo '.::Tests started::.'
-                    docker.build("tester", ". -f Dockertest")
-                }
-            }
-        }
         stage('Deploy') {
             steps {
                 script {                              
@@ -49,22 +28,7 @@ pipeline {
 				     echo 'Building deploy image'
 				     sh 'docker build . --no-cache -f Dockerpublish -t deploy'
 				     echo 'Starting application in pure dev container'
-				     sh 'docker run --name deploy-container -d deploy'
-				     sh 'sleep 20'
-				     final String url = "http://localhost:8080"
-                                     final String response = sh(script: "curl -s $url", returnStdout: true).trim()
-                                     echo response							
-				     sh 'sleep 150'
-				} catch (Exception e) {
-				     echo 'Exception during timeout has been thrown with message'
-                                     echo e.toString()
-					if (e.toString() == "org.jenkinsci.plugins.workflow.steps.FlowInterruptedException") {
-						echo '.::Deployed successfully!::.'
-					} else {
-						throw new Exception(e.toString())
-					} 
-                               sh 'docker stop deploy-container'
-                               sh 'docker rm deploy-container'                                                   
+				        
 						}
 					}
 				}
