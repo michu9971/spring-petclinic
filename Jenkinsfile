@@ -23,13 +23,10 @@ pipeline {
             steps {
                 script {                              
 			timeout (1) {
-				try {
                                      echo '.::Publishing::.'
 				     echo 'Building deploy image'
 				     sh 'docker build . --no-cache -f Dockerpublish -t deploy'
 				     echo 'Starting application in pure dev container'
-				        
-						}
 					}
 				}
 			}
